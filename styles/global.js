@@ -1,0 +1,23 @@
+export const Color = {
+	primary :  "#6F58E2",
+	purple1: "#6F58E2",
+	purple2: "#CCC8F5",
+	purple3: "#F0EFFF",
+	grey1: "#9A97AD",
+	grey2: "#BBB9C6",
+	grey3: "#D9D9DE",
+	igrey1: "#F3F3F3",
+	igrey2: "#F4F4F6",
+	igrey3: "#F9F9F9",
+	red1: "#F15858",
+	red2: "#F48282",
+	red3: "#F6A0A0",
+	green1: "#67C048",
+	green2: "#73D751",
+	green3: "#7FE35D",
+	yellow1: "#FFDB1D",
+	yellow2: "#FFE55F",
+	yellow3: "#FFEF99",
+	black: "#1F1D2B",
+	white: "#fff"
+	}

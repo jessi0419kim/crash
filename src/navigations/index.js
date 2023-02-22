@@ -5,7 +5,7 @@ import MainNavigation from './mainNavigation';
 
 const Navigations = () => {
 
-    const [isLogin, setIsLogin] = useState(true)
+    const [isLogin, setIsLogin] = useState(false)
 
     return(
         <NavigationContainer>
