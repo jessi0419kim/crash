@@ -4,7 +4,7 @@ import { Color } from '../../../../styles/global';
 import { Input } from '../../../components/input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-const SignIn = () => {
+const SignIn = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -27,9 +27,11 @@ const SignIn = () => {
                         </View>                
                   </View>
 
-                  <View style={{alignItems: 'flex-end', marginTop: 4}}>
-                            <Text style={{ fontsize: 14, color:  Color.primary,}}>Forget Password?</Text>         
-                  </View>
+                  <TouchableOpacity onPress={() => {navigation.navigate("ForgetPassword")}}>
+                      <View style={{alignItems: 'flex-end', marginTop: 4}}>
+                                <Text style={{ fontsize: 14, color:  Color.primary,}}>Forget Password?</Text>         
+                      </View>
+                  </TouchableOpacity>
 
                   <TouchableOpacity >
                                 <View  style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
@@ -40,6 +42,12 @@ const SignIn = () => {
                                   : <Text style={{ fontSize: 18,  fontWeight: '600', color: Color.white}}>Sign In</Text>}
                                 </View>
                   </TouchableOpacity >
+                  <View style={{marginVertical:12, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+                    <Text style={{fontSize: 14,  color: Color.primary}}>Don't have an account?  </Text>
+                    <TouchableOpacity onPress={() => {navigation.navigate("SignUp")}}>
+                        <Text style={{fontSize: 16, fontWeight: 'bold', color: Color.primary}}>Sign Up</Text>
+                    </TouchableOpacity>
+                </View>  
            </Pressable>
           </KeyboardAwareScrollView>
       </View>
@@ -48,16 +56,3 @@ const SignIn = () => {
 }
 
 export default SignIn
-
-
-
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     paddingHorizontal: 24
-//   },
-// });
-
-{/* <KeyboardAwareScrollView style={styles.container} keyboardShouldPersistTaps="always"> */}
