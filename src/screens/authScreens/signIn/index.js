@@ -1,29 +1,75 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, TouchableOpacity, ActivityIndicator, Keyboard, Pressable } from 'react-native';
+import { Text, View, TouchableOpacity, ActivityIndicator, Keyboard,  Pressable } from 'react-native';
 import { Color } from '../../../../styles/global';
 import { Input } from '../../../components/input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useForm, Controller } from "react-hook-form";
+import { supabase } from '../../../configs/supabaseConfig';
 
 const SignIn = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(false)
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      Email: '',
+      Password: ''
+    }
+  });
+
+  const getSignInWithSupabase = async(req) => {
+    setIsLoading(true)
+    try{
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: req.Email,
+        password: req.Password,
+      })
+        if(error){
+            Alert.alert("아이디 또는 비밀번호가 올바르지 않습니다.")
+            console.log(error)
+          }
+    }catch(e){
+      console.log(e)
+    }
+    setIsLoading(false)
+  }
 
 
   return (
       <View style={{flex:1, backgroundColor: Color.white, paddingHorizontal: 24}} >
         <KeyboardAwareScrollView keyboardShouldPersistTaps="always" showsVerticalScrollIndicator={false}>
-           <Pressable onPress={Keyboard.dismiss}>
-              <View style={{marginVertical: 80}} onPress={()=>console.log(';ho')}>
+              <View style={{marginVertical: 80}}>
                   <Text style={{fontSize: 32, fontWeight: 'bold'}}>Welcome</Text>
                   <Text style={{fontSize: 14, color: "#8E8E93" }}>Let's get started with out app!</Text>
               </View> 
             
                   <View className='formContainer'>
                         <View className="EmailContainer" style={{marginBottom: 16}}>
-                                <Input title={'Email'} placeholder={'Email'} secureTextEntry={false}/>
+                                <Controller
+                                    name="Email"
+                                    control={control}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                      <Input title={'Email'} placeholder={'Email'} secureTextEntry={false} onChange={onChange} value={value}/>
+                                    )}
+                                  />
+                                {errors?.Email?.type=='required' && <Text style={{color: Color.primary, fontSize:12, paddingVertical: 6}}>Email is required.</Text>}
                         </View>
+
+                        
                         <View className="PwContainer" style={{marginBottom: 16}}>
-                                <Input title={'Password'} placeholder={'Password'} secureTextEntry={true}/>
+                               <Controller
+                                    name="Password"
+                                    control={control}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                    render={({ field: { onChange, onBlur, value } }) => (
+                                      <Input title={'Password'} placeholder={'Password'} secureTextEntry={true} onChange={onChange} value={value}/>
+                                    )}
+                                  />
+                                  {errors?.Password?.type=='required' && <Text style={{color:  Color.primary, fontSize:12, paddingVertical: 6}}>Password is required.</Text>}
                         </View>                
                   </View>
 
@@ -33,7 +79,7 @@ const SignIn = ({ navigation }) => {
                       </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity >
+                  <TouchableOpacity onPress={handleSubmit(getSignInWithSupabase)}>
                                 <View  style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                                                 height: 52, borderRadius: 24, marginVertical: 24,
                                                 backgroundColor: Color.primary}} >
@@ -48,7 +94,6 @@ const SignIn = ({ navigation }) => {
                         <Text style={{fontSize: 16, fontWeight: 'bold', color: Color.primary}}>Sign Up</Text>
                     </TouchableOpacity>
                 </View>  
-           </Pressable>
           </KeyboardAwareScrollView>
       </View>
     
@@ -56,3 +101,5 @@ const SignIn = ({ navigation }) => {
 }
 
 export default SignIn
+
+
