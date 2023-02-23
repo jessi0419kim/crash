@@ -4,6 +4,7 @@ import { Color } from '../../../../styles/global';
 import { Input } from '../../../components/input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useForm, Controller } from "react-hook-form";
+import { supabase } from '../../../configs/supabaseConfig';
 
 const SignUp = ({ navigation }) => {
 
@@ -18,8 +19,27 @@ const SignUp = ({ navigation }) => {
     }
   });
 
-  const getSignUp = (data) => {
-    console.log(data)
+  const getSignUpWithSupabase = async(req) => {
+    
+    setIsLoading(prev => !prev)
+    try {
+          const {data, error} = await supabase.auth.signUp({
+          email: req.Email,
+          password: req.Password,
+          options: {
+          data: {
+              name: req.Name,
+          }
+        }
+          })
+          
+      if(error){
+        console.log(error)
+      }
+      } catch (e) {
+        console.log(e)
+      }
+    setIsLoading(prev => !prev)
   }
 
 
@@ -98,7 +118,7 @@ const SignUp = ({ navigation }) => {
                         </View>                 
                   </View>
 
-                  <TouchableOpacity onPress={handleSubmit(getSignUp)}>
+                  <TouchableOpacity onPress={handleSubmit(getSignUpWithSupabase)}>
                                 <View  style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                                                 height: 52, borderRadius: 24, marginVertical: 24,
                                                 backgroundColor: Color.primary}} >
