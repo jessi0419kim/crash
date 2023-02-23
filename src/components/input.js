@@ -3,7 +3,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity } from 'react-nativ
 import { Color } from '../../styles/global';
 
 
-export const Input = ({title, placeholder, secureTextEntry}) => {
+export const Input = ({title, placeholder, secureTextEntry, onChange, value}) => {
 
     const [isFocus, setIsFocus] = useState(false)
 
@@ -22,6 +22,8 @@ export const Input = ({title, placeholder, secureTextEntry}) => {
                             onBlur={()=>setIsFocus(prev=>!prev)}
                             placeholder={placeholder}
                             secureTextEntry={secureTextEntry}
+                            onChangeText={onChange}
+                            value={value}
                                     />
             </View>
     )
