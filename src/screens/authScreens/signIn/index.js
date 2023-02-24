@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Text, View, TouchableOpacity, ActivityIndicator, Keyboard,  Pressable } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Color } from '../../../../styles/global';
 import { Input } from '../../../components/input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -9,7 +10,7 @@ import { supabase } from '../../../configs/supabaseConfig';
 const SignIn = ({ navigation }) => {
 
   const [isLoading, setIsLoading] = useState(false)
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm({
     defaultValues: {
       Email: '',
       Password: ''
@@ -32,6 +33,19 @@ const SignIn = ({ navigation }) => {
     }
     setIsLoading(false)
   }
+  
+  
+useFocusEffect(
+    useCallback(()=>{
+      return () => {
+        setValue('Email', '')
+        setValue('Password','')
+      }
+    },[])
+);
+
+
+
 
 
   return (
